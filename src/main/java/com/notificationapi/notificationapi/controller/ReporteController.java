@@ -2,6 +2,7 @@ package com.notificationapi.notificationapi.controller;
 
 import com.notificationapi.notificationapi.service.ReporteService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,11 @@ public class ReporteController {
 
     @GetMapping("/gen")
     public ResponseEntity<?> generarReporte() {
-        if (reporteService.generarReporte("C:\\Users\\User\\Desktop\\reportePersonas.xlsx")){
-            return ResponseEntity.ok("Reporte generado exitosamente");
+        log.info("Generando reporte");
+        if (reporteService.generarReporte("C:\\Users\\User\\Desktop\\reportePersonas5.xlsx")){
+            return new ResponseEntity<>("Reporte generado exitosamente", HttpStatus.OK);
         }else {
-            return ResponseEntity.ok("Reporte NO generado exitosamente");
+            return new ResponseEntity<>("Reporte NO generado exitosamente", HttpStatus.BAD_REQUEST);
         }
 
     }

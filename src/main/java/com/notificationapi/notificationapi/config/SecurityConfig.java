@@ -35,6 +35,7 @@ public class SecurityConfig {
                         authRequest
                                 .requestMatchers("/auth/**" , "/v1/reporte/gen").permitAll()
                                 .anyRequest().authenticated()
+                                //.anyRequest().permitAll()
                 )
                 .sessionManagement(sessionManager->
                         sessionManager
