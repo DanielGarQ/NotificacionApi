@@ -1,5 +1,7 @@
 package com.notificationapi.notificationapi.service;
 
+import com.notificationapi.notificationapi.MessengerService.buzonNotificacion.ReciverMessageBuzonNotificacion;
+import com.notificationapi.notificationapi.crossCutting.Messages.UtilMessagesService;
 import com.notificationapi.notificationapi.crossCutting.utils.UtilEmail;
 import com.notificationapi.notificationapi.crossCutting.utils.UtilText;
 import com.notificationapi.notificationapi.crossCutting.utils.UtilUUID;
@@ -8,6 +10,8 @@ import com.notificationapi.notificationapi.domain.BuzonNotificacionDomain;
 import com.notificationapi.notificationapi.domain.PersonaDomain;
 import com.notificationapi.notificationapi.entity.PersonaEntity;
 import com.notificationapi.notificationapi.repository.PersonaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +21,7 @@ import java.util.UUID;
 @Repository
 public class PersonaService {
 
+    public static final Logger logger = LoggerFactory.getLogger(PersonaService.class);
 
     @Autowired
     private PersonaRepository personaRepository;
@@ -47,8 +52,8 @@ public class PersonaService {
         }
         try {
             personaRepository.save(toEntity(persona));
-        }catch (Exception e){
-            throw e;
+        }catch (Exception exception){
+            logger.error(UtilMessagesService.PersonaService.ERROR_GUARDAR, exception.getMessage(), exception);
         }
         BuzonNotificacionDomain buzonNotificacionDomain = new BuzonNotificacionDomain();
         buzonNotificacionDomain.setPropietario(persona);
@@ -56,15 +61,13 @@ public class PersonaService {
     }
 
     public void update(PersonaDomain persona) throws NotificationException {
-        var  Persona = personaRepository.findBycorreoElectronico(persona.getCorreoElectronico());
         if(persona.getCorreoElectronico().equals(UtilText.getDefaultTextValue()) || persona.getCorreoElectronico().equals(UtilEmail.getDefaultValueMail())){
             throw new NotificationException();
         }
         try{
             personaRepository.updateBycorreoElectronico(persona.getPrimerApellido(),persona.getPrimerNombre(),persona.getSegundoApellido(),persona.getSegundoNombre(),persona.getCorreoElectronico());
-        }catch (Exception e){
-            e.printStackTrace();
-            throw e;
+        }catch (Exception exception){
+            logger.error(UtilMessagesService.PersonaService.ERROR_ACTUALIZAR, exception.getMessage(), exception);
         }
     }
 
@@ -76,16 +79,13 @@ public class PersonaService {
             PersonaDomain persona = toDomain(personaRepository.findBycorreoElectronico(correo));
             personaRepository.deleteById(persona.getIdentificador());
             buzonNotificacionService.eliminar(persona);
-        }catch (Exception e){
-            throw e;
+        }catch (Exception exception){
+            logger.error(UtilMessagesService.PersonaService.ERROR_ELIMINAR, exception.getMessage(), exception);
         }
     }
 
 
     private boolean datosSonValidos(PersonaDomain persona){
-        if(persona.getPrimerNombre().equals(UtilText.getDefaultTextValue()) || persona.getPrimerApellido().equals(UtilText.getDefaultTextValue())){
-            return false;
-        }
-        return  true;
+        return !persona.getPrimerNombre().equals(UtilText.getDefaultTextValue()) && !persona.getPrimerApellido().equals(UtilText.getDefaultTextValue());
     }
 }

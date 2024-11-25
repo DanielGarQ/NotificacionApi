@@ -27,9 +27,6 @@ public class MessageSenderNotificacion implements MessageSender<NotificacionDoma
         this.mapperJsonObjeto = mapperJsonObjeto;
     }
 
-    public void sendMesagge(Object mensaje, Long idMensajeEmisor, String exchange, String routingKey) {
-
-    }
 
     private MessageProperties generarPropiedadesMensaje(Long idMensajeEmisor ) {
         return MessagePropertiesBuilder.newInstance()
@@ -55,7 +52,6 @@ public class MessageSenderNotificacion implements MessageSender<NotificacionDoma
         if (!cuerpoMensaje.isPresent()) {
             return;
         }
-        System.out.println(cuerpoMensaje);
         rabbitTemplate.convertAndSend(exchange, routingKey, cuerpoMensaje.get());
     }
 }

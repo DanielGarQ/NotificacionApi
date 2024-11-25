@@ -90,7 +90,7 @@ public class UsuarioEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return correoElectronico;
+        return getCorreoElectronico();
     }
 
     @Override

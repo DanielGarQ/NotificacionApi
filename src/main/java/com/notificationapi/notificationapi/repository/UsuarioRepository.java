@@ -18,5 +18,5 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, UUID> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE public.usuario SET password =?1 WHERE correo_electronico =?2",nativeQuery = true)
-    void updateByCorreoElectronico(String contraseña,String correoElectronico);
+    void updateByCorreoElectronico(String contrasena, String correoElectronico);
 }

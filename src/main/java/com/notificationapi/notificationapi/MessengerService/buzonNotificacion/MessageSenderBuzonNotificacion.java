@@ -32,10 +32,6 @@ public class MessageSenderBuzonNotificacion implements MessageSender<BuzonNotifi
         this.mapperJsonObjeto = mapperJsonObjeto;
     }
 
-    public void sendMesagge(Object mensaje, Long idMensajeEmisor, String exchange, String routingKey) {
-
-    }
-
     private MessageProperties generarPropiedadesMensaje(Long idMensajeEmisor ) {
         return MessagePropertiesBuilder.newInstance()
                 .setContentType(MessageProperties.CONTENT_TYPE_JSON)

@@ -44,17 +44,6 @@ public class NotificacionService {
        return null;
     }
 
-
-
-    private PersonaDomain personaToDomain(PersonaEntity entity){
-        return new PersonaDomain(entity.getIdentificador(), entity.getPrimerNombre(), entity.getSegundoNombre(), entity.getPrimerApellido(), entity.getSegundoApellido(), entity.getCorreoElectronico());
-    }
-
-    private PersonaEntity personaToEntity(PersonaDomain domain){
-        return new PersonaEntity(domain.getIdentificador(), domain.getPrimerNombre(), domain.getSegundoNombre(), domain.getPrimerApellido(), domain.getSegundoApellido(), domain.getCorreoElectronico());
-    }
-
-
     public void saveNotificacion(NotificacionDomain notificacion){
         messageSenderNotificacion.execute(notificacion,"3423",notificacionQueueConfigCrear.getExchangeName(),notificacionQueueConfigCrear.getRoutingKeyName());
     }

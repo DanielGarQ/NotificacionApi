@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1")
@@ -45,9 +44,9 @@ public class UsuarioController {
         }
     }
     @PutMapping("/usuario")
-    public ResponseEntity<String> update(@RequestParam(required = true) String correoElectronico,@RequestParam String contraseña){
+    public ResponseEntity<String> update(@RequestParam(required = true) String correoElectronico,@RequestParam String contrasena){
         try {
-            usuarioService.update(correoElectronico,contraseña);
+            usuarioService.update(correoElectronico, contrasena);
             return new ResponseEntity<>("Contraseña actualizada con Exito!!",HttpStatus.OK);
         }catch (NotificationException n){
             return new ResponseEntity<>("Error la contraseña debe tener un formato valido",HttpStatus.BAD_REQUEST);
